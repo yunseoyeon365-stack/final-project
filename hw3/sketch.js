@@ -1,19 +1,19 @@
-let interactionTime = 0; // ¸¶Áö¸· ÀÎÅÍ·¢¼ÇÀÌ ¹ß»ıÇÑ ½Ã°£ (¹Ğ¸®ÃÊ)
-let isBlinking = false;  // ´« ±ôºıÀÓ »óÅÂ¸¦ Á¦¾îÇÏ´Â º¯¼ö
+let interactionTime = 0; // ë§ˆì§€ë§‰ ì¸í„°ë™ì…˜ì´ ë°œìƒí•œ ì‹œê°„ (ë°€ë¦¬ì´ˆ)
+let isBlinking = false;  // ëˆˆ ê¹œë¹¡ì„ ìƒíƒœë¥¼ ì œì–´í•˜ëŠ” ë³€ìˆ˜
 
-// ´« ±ôºıÀÓ °ü·Ã º¯¼ö
-let blinkStartTime = 0;   // ±ôºıÀÓ ½ÃÀÛ ½Ã°£
-let blinkDuration = 10000; // ÀÎÅÍ·¢¼ÇÀÌ ¾øÀ¸¸é 10ÃÊ ÈÄ ±ôºıÀÓ ½ÃÀÛ
-let blinkInterval = 1000;  // 1ÃÊ¸¶´Ù ±ôºıÀÓ (±ôºıÀÌ´Â ÁÖ±â)
-let blinkSpeed = 200;      // ´«À» °¨¾Ò´Ù ¶ß´Â ¼Óµµ (ÀÛÀ»¼ö·Ï ºü¸§)
+// ëˆˆ ê¹œë¹¡ì„ ê´€ë ¨ ë³€ìˆ˜
+let blinkStartTime = 0;   // ê¹œë¹¡ì„ ì‹œì‘ ì‹œê°„
+let blinkDuration = 10000; // ì¸í„°ë™ì…˜ì´ ì—†ìœ¼ë©´ 10ì´ˆ í›„ ê¹œë¹¡ì„ ì‹œì‘
+let blinkInterval = 1000;  // 1ì´ˆë§ˆë‹¤ ê¹œë¹¡ì„ (ê¹œë¹¡ì´ëŠ” ì£¼ê¸°)
+let blinkSpeed = 200;      // ëˆˆì„ ê°ì•˜ë‹¤ ëœ¨ëŠ” ì†ë„ (ì‘ì„ìˆ˜ë¡ ë¹ ë¦„)
 
-// º° °ü·Ã º¯¼ö
+// ë³„ ê´€ë ¨ ë³€ìˆ˜
 let stars = [];
-let starBlinkInterval = 500; // º° ±ôºıÀÌ´Â ÁÖ±â (0.5ÃÊ¸¶´Ù)
-let lastStarBlinkTime = 0;   // ¸¶Áö¸· º° ±ôºıÀÓ ½Ã°£
+let starBlinkInterval = 500; // ë³„ ê¹œë¹¡ì´ëŠ” ì£¼ê¸° (0.5ì´ˆë§ˆë‹¤)
+let lastStarBlinkTime = 0;   // ë§ˆì§€ë§‰ ë³„ ê¹œë¹¡ì„ ì‹œê°„
 
-// ¾ó±¼ ¿µ¿ª °æ°è (º°ÀÌ Ä§¹üÇÏÁö ¾Êµµ·Ï)
-// ´ë·«ÀûÀÎ ¾ó±¼ ¿µ¿ªÀ» Á÷»ç°¢ÇüÀ¸·Î Á¤ÀÇÇÕ´Ï´Ù.
+// ì–¼êµ´ ì˜ì—­ ê²½ê³„ (ë³„ì´ ì¹¨ë²”í•˜ì§€ ì•Šë„ë¡)
+// ëŒ€ëµì ì¸ ì–¼êµ´ ì˜ì—­ì„ ì§ì‚¬ê°í˜•ìœ¼ë¡œ ì •ì˜í•©ë‹ˆë‹¤.
 const faceBounds = {
   x: 240,
   y: 150,
@@ -23,10 +23,10 @@ const faceBounds = {
 
 function setup() {
   createCanvas(600, 400);
-  interactionTime = millis(); // ÃÊ±â ÀÎÅÍ·¢¼Ç ½Ã°£ ¼³Á¤
-  blinkStartTime = millis();  // ÃÊ±â ±ôºıÀÓ ½ÃÀÛ ½Ã°£ ¼³Á¤
+  interactionTime = millis(); // ì´ˆê¸° ì¸í„°ë™ì…˜ ì‹œê°„ ì„¤ì •
+  blinkStartTime = millis();  // ì´ˆê¸° ê¹œë¹¡ì„ ì‹œì‘ ì‹œê°„ ì„¤ì •
 
-  // º° ÃÊ±âÈ­ (ÃÑ 12°³)
+  // ë³„ ì´ˆê¸°í™” (ì´ 12ê°œ)
   for (let i = 0; i < 12; i++) {
     stars.push({
       x: random(width),
@@ -39,77 +39,77 @@ function setup() {
     });
   }
 
-  loop(); // draw ÇÔ¼ö°¡ °è¼Ó ½ÇÇàµÇµµ·Ï ÇÕ´Ï´Ù.
+  loop(); // draw í•¨ìˆ˜ê°€ ê³„ì† ì‹¤í–‰ë˜ë„ë¡ í•©ë‹ˆë‹¤.
 }
 
 function draw() {
-  // ¹è°æ - ¹àÀº ÇÏ´Ã»ö
+  // ë°°ê²½ - ë°ì€ í•˜ëŠ˜ìƒ‰
   background(200, 230, 255);
 
-  // 10ÃÊ(10000ms) µ¿¾È ÀÎÅÍ·¢¼ÇÀÌ ¾øÀ¸¸é ´«À» ±ôºıÀÔ´Ï´Ù.
+  // 10ì´ˆ(10000ms) ë™ì•ˆ ì¸í„°ë™ì…˜ì´ ì—†ìœ¼ë©´ ëˆˆì„ ê¹œë¹¡ì…ë‹ˆë‹¤.
   if (millis() - interactionTime > blinkDuration) {
     let elapsed = millis() - blinkStartTime;
-    // ±ôºıÀÓ ÁÖ±â¿¡ µû¶ó ´« ±ôºıÀÓ »óÅÂ¸¦ °áÁ¤
+    // ê¹œë¹¡ì„ ì£¼ê¸°ì— ë”°ë¼ ëˆˆ ê¹œë¹¡ì„ ìƒíƒœë¥¼ ê²°ì •
     if ((elapsed % blinkInterval) < blinkSpeed) {
-      isBlinking = true; // ´«À» °¨´Â ½Ã°£
+      isBlinking = true; // ëˆˆì„ ê°ëŠ” ì‹œê°„
     } else {
-      isBlinking = false; // ´«À» ¶ß´Â ½Ã°£
+      isBlinking = false; // ëˆˆì„ ëœ¨ëŠ” ì‹œê°„
     }
   } else {
-    isBlinking = false; // ÀÎÅÍ·¢¼ÇÀÌ ÀÖÀ¸¸é ´«À» ¶ß°í À¯Áö
-    blinkStartTime = millis(); // ÀÎÅÍ·¢¼Ç ¹ß»ı ½Ã ±ôºıÀÓ ½ÃÀÛ ½Ã°£ ÃÊ±âÈ­
+    isBlinking = false; // ì¸í„°ë™ì…˜ì´ ìˆìœ¼ë©´ ëˆˆì„ ëœ¨ê³  ìœ ì§€
+    blinkStartTime = millis(); // ì¸í„°ë™ì…˜ ë°œìƒ ì‹œ ê¹œë¹¡ì„ ì‹œì‘ ì‹œê°„ ì´ˆê¸°í™”
   }
 
-  // µŞ¸Ó¸® ÀüÃ¼
+  // ë’·ë¨¸ë¦¬ ì „ì²´
   drawHairBack();
   
-  // ¸ñ
+  // ëª©
   drawNeck();
   
-  // ¾ß±¸Á¡ÆÛ (¸öÅë)
+  // ì•¼êµ¬ì í¼ (ëª¸í†µ)
   drawJacket();
   
-  // ¾ó±¼
+  // ì–¼êµ´
   drawFace();
   
-  // ±Í
+  // ê·€
   drawEars();
   
-  // ´«½ç
+  // ëˆˆì¹
   drawEyebrows();
   
-  // ´«
-  drawEyes(); // isBlinking º¯¼ö¿¡ µû¶ó ´«À» ±×¸³´Ï´Ù.
+  // ëˆˆ
+  drawEyes(); // isBlinking ë³€ìˆ˜ì— ë”°ë¼ ëˆˆì„ ê·¸ë¦½ë‹ˆë‹¤.
   
-  // ÄÚ (¿äÃ»ÇÑ °¢Áø '>' ¸ğ¾ç)
+  // ì½” (ìš”ì²­í•œ ê°ì§„ '>' ëª¨ì–‘)
   drawNose();
   
-  // ÀÔ
+  // ì…
   drawMouth();
   
-  // ¾Õ¸Ó¸® (´«½çÀ» °¡¸®´Â ÀÏÀÚ ¾Õ¸Ó¸®)
+  // ì•ë¨¸ë¦¬ (ëˆˆì¹ì„ ê°€ë¦¬ëŠ” ì¼ì ì•ë¨¸ë¦¬)
   drawBangs();
 
-  // º° ¾÷µ¥ÀÌÆ® ¹× ±×¸®±â
+  // ë³„ ì—…ë°ì´íŠ¸ ë° ê·¸ë¦¬ê¸°
   updateStars();
   drawStars();
 }
 
-// ¸¶¿ì½º Å¬¸¯ ½Ã ÀÎÅÍ·¢¼Ç ½Ã°£ ¾÷µ¥ÀÌÆ®
+// ë§ˆìš°ìŠ¤ í´ë¦­ ì‹œ ì¸í„°ë™ì…˜ ì‹œê°„ ì—…ë°ì´íŠ¸
 function mousePressed() {
   interactionTime = millis();
 }
 
-// Å°º¸µå ´©¸§ ½Ã ÀÎÅÍ·¢¼Ç ½Ã°£ ¾÷µ¥ÀÌÆ®
+// í‚¤ë³´ë“œ ëˆ„ë¦„ ì‹œ ì¸í„°ë™ì…˜ ì‹œê°„ ì—…ë°ì´íŠ¸
 function keyPressed() {
-  // ±âÁ¸ ÀÎÅÍ·¢¼Ç ½Ã°£ ¾÷µ¥ÀÌÆ® ·ÎÁ÷
+  // ê¸°ì¡´ ì¸í„°ë™ì…˜ ì‹œê°„ ì—…ë°ì´íŠ¸ ë¡œì§
   interactionTime = millis();
 
-  // 'g' ¶Ç´Â 'G' Å°¸¦ ´©¸£¸é GIF ÀúÀå
+  // 'g' ë˜ëŠ” 'G' í‚¤ë¥¼ ëˆ„ë¥´ë©´ GIF ì €ì¥
   if (key === 'g' || key === 'G') {
-    // saveGif('ÆÄÀÏ¸í', Áö¼Ó½Ã°£_ÃÊ);
-    saveGif('myAnimatedCharacter', 10); // 'myAnimatedCharacter.gif'·Î 10ÃÊ µ¿¾È ÀúÀå
-    print("GIF ÀúÀåÀ» ½ÃÀÛÇÕ´Ï´Ù! 10ÃÊ µ¿¾È ±â´Ù·ÁÁÖ¼¼¿ä.");
+    // saveGif('íŒŒì¼ëª…', ì§€ì†ì‹œê°„_ì´ˆ);
+    saveGif('myAnimatedCharacter', 10); // 'myAnimatedCharacter.gif'ë¡œ 10ì´ˆ ë™ì•ˆ ì €ì¥
+    print("GIF ì €ì¥ì„ ì‹œì‘í•©ë‹ˆë‹¤! 10ì´ˆ ë™ì•ˆ ê¸°ë‹¤ë ¤ì£¼ì„¸ìš”.");
   }
 }
 
@@ -221,9 +221,9 @@ function drawFace() {
   bezierVertex(245, 250, 237, 230, 240, 200);
   bezierVertex(245, 170, 270, 150, 300, 150);
   endShape(CLOSE);
-  // ÀÌ¸¶ ÇÏÀÌ¶óÀÌÆ® Á¦°Å: ¾Æ¹«°Íµµ Ãß°¡ÇÏÁö ¾ÊÀ½
-  // ÅÎ ±×¸²ÀÚ/ÀÔ ÁÖº¯ À½¿µ Á¦°Å: ¾Æ¹«°Íµµ Ãß°¡ÇÏÁö ¾ÊÀ½
-  // ºí·¯¼Å´Â À¯Áö(¿øÄ¡ ¾ÊÀ¸¸é ÁÖ¼®)
+  // ì´ë§ˆ í•˜ì´ë¼ì´íŠ¸ ì œê±°: ì•„ë¬´ê²ƒë„ ì¶”ê°€í•˜ì§€ ì•ŠìŒ
+  // í„± ê·¸ë¦¼ì/ì… ì£¼ë³€ ìŒì˜ ì œê±°: ì•„ë¬´ê²ƒë„ ì¶”ê°€í•˜ì§€ ì•ŠìŒ
+  // ë¸”ëŸ¬ì…”ëŠ” ìœ ì§€(ì›ì¹˜ ì•Šìœ¼ë©´ ì£¼ì„)
   fill(255, 180, 180, 120);
   ellipse(260, 225, 28, 20);
   ellipse(340, 225, 28, 20);
@@ -245,15 +245,15 @@ function drawEyebrows() {
 
 function drawEyes() {
   if (isBlinking) {
-    // ´«À» °¨Àº »óÅÂ
+    // ëˆˆì„ ê°ì€ ìƒíƒœ
     stroke(45, 35, 30);
     strokeWeight(2.5);
-    line(245, 210, 285, 210); // ¿ŞÂÊ ´« °¨Àº ¼±
-    line(315, 210, 355, 210); // ¿À¸¥ÂÊ ´« °¨Àº ¼±
+    line(245, 210, 285, 210); // ì™¼ìª½ ëˆˆ ê°ì€ ì„ 
+    line(315, 210, 355, 210); // ì˜¤ë¥¸ìª½ ëˆˆ ê°ì€ ì„ 
     noStroke();
   } else {
-    // ´«À» ¶á »óÅÂ (±âÁ¸ ÄÚµå À¯Áö)
-    // ¿ŞÂÊ
+    // ëˆˆì„ ëœ¬ ìƒíƒœ (ê¸°ì¡´ ì½”ë“œ ìœ ì§€)
+    // ì™¼ìª½
     noFill();
     stroke(235, 205, 180);
     strokeWeight(1.5);
@@ -273,10 +273,10 @@ function drawEyes() {
     fill(255);
     ellipse(269, 208, 6, 8);
     ellipse(263, 215, 3, 4);
-    // À§ ¼Ó´«½ç À¯Áö
+    // ìœ„ ì†ëˆˆì¹ ìœ ì§€
     
     noStroke();
-    // ¿À¸¥ÂÊ
+    // ì˜¤ë¥¸ìª½
     noFill();
     stroke(235, 205, 180);
     strokeWeight(1.5);
@@ -302,19 +302,19 @@ function drawEyes() {
 }
 
 function drawNose() {
-  // ¿äÃ»ÇÏ½Å '>' °°Àº °¢Áø ÄÚ ¸ğ¾çÀ» ¼±°ú »ï°¢ÇüÀ¸·Î Ç¥Çö
-  // À§Ä¡´Â ¾ó±¼ Áß¾Ó ±âÁØ(¾à°£ ¾Æ·¡)
+  // ìš”ì²­í•˜ì‹  '>' ê°™ì€ ê°ì§„ ì½” ëª¨ì–‘ì„ ì„ ê³¼ ì‚¼ê°í˜•ìœ¼ë¡œ í‘œí˜„
+  // ìœ„ì¹˜ëŠ” ì–¼êµ´ ì¤‘ì•™ ê¸°ì¤€(ì•½ê°„ ì•„ë˜)
   
-  // ÄÚ¸¦ ¾îµÎ¿î »ö ¼±À¸·Î ±×¸² (°¢Áø '>' ÇüÅÂ)
+  // ì½”ë¥¼ ì–´ë‘ìš´ ìƒ‰ ì„ ìœ¼ë¡œ ê·¸ë¦¼ (ê°ì§„ '>' í˜•íƒœ)
   stroke(120, 90, 70);
   strokeWeight(2);
   noFill();
-  // ¿ŞÂÊ ´ë°¢¼± (Äà´ë)
+  // ì™¼ìª½ ëŒ€ê°ì„  (ì½§ëŒ€)
   line(300, 205, 295, 220);
-  // ¿À¸¥ÂÊ ¾Æ·¡·Î ÀÌ¾îÁö´Â ¶óÀÎ (ÄÚ³¡/Äà±¸¸Û ¹æÇâ)
+  // ì˜¤ë¥¸ìª½ ì•„ë˜ë¡œ ì´ì–´ì§€ëŠ” ë¼ì¸ (ì½”ë/ì½§êµ¬ë© ë°©í–¥)
   line(295, 220, 305, 225);
   
-  // ÄÚ³¡ ÀÛÀº »ï°¢Çü(Ã¤¿ò)·Î °­Á¶
+  // ì½”ë ì‘ì€ ì‚¼ê°í˜•(ì±„ì›€)ë¡œ ê°•ì¡°
   noStroke();
   fill(255, 218, 185);
   beginShape();
@@ -324,15 +324,15 @@ function drawNose() {
   vertex(299, 223);
   endShape(CLOSE);
   
-  // ÄÚ À±°û ¾à°£ ´õÇØ ±ò²ûÇÏ°Ô Ç¥½Ã
+  // ì½” ìœ¤ê³½ ì•½ê°„ ë”í•´ ê¹”ë”í•˜ê²Œ í‘œì‹œ
   stroke(140, 105, 85);
   strokeWeight(1.2);
-  line(300, 205, 299, 217); // Äà´ë º¸Á¤¼±
+  line(300, 205, 299, 217); // ì½§ëŒ€ ë³´ì •ì„ 
   noStroke();
 }
 
 function drawMouth() {
-  // ÀÔ - ÁÖº¯ À½¿µ/ÇÏÀÌ¶óÀÌÆ® Á¦°Å
+  // ì… - ì£¼ë³€ ìŒì˜/í•˜ì´ë¼ì´íŠ¸ ì œê±°
   noFill();
   stroke(45, 35, 30);
   strokeWeight(2);
@@ -344,11 +344,11 @@ function drawMouth() {
   
   fill(255, 170, 190);
   arc(300, 254, 30, 8, 0, PI);
-  // ÀÔ ÁÖº¯ ÇÏÀÌ¶óÀÌÆ® Á¦°Å(¾Æ¹«°Íµµ Ãß°¡ÇÏÁö ¾ÊÀ½)
+  // ì… ì£¼ë³€ í•˜ì´ë¼ì´íŠ¸ ì œê±°(ì•„ë¬´ê²ƒë„ ì¶”ê°€í•˜ì§€ ì•ŠìŒ)
 }
 
 function drawBangs() {
-  // ÀÏÀÚ ¾Õ¸Ó¸®·Î ´«½çÀ» °¡¸®µµ·Ï ³»¸²
+  // ì¼ì ì•ë¨¸ë¦¬ë¡œ ëˆˆì¹ì„ ê°€ë¦¬ë„ë¡ ë‚´ë¦¼
   fill(45, 35, 30);
   noStroke();
   beginShape();
@@ -360,48 +360,48 @@ function drawBangs() {
   vertex(245, 180);
   endShape(CLOSE);
   
-  // ¾Æ·¡ Á÷¼± ÄÆ ºÎºĞÀ» ¸íÈ®È÷ ÇÏ±â À§ÇÑ Á÷»ç°¢Çü °¡´Ú
+  // ì•„ë˜ ì§ì„  ì»· ë¶€ë¶„ì„ ëª…í™•íˆ í•˜ê¸° ìœ„í•œ ì§ì‚¬ê°í˜• ê°€ë‹¥
   fill(40, 30, 28);
   for (let i = 0; i < 9; i++) {
     let x = 246 + i * 12;
     rect(x, 170, 8, 12);
   }
   
-  // Áß¾Ó ¾à°£ÀÇ À½¿µ (¹Ì¼¼)
+  // ì¤‘ì•™ ì•½ê°„ì˜ ìŒì˜ (ë¯¸ì„¸)
   fill(30, 25, 22, 200);
   rect(290, 155, 20, 25);
 }
 
-// º° À§Ä¡ ¾÷µ¥ÀÌÆ® ÇÔ¼ö
+// ë³„ ìœ„ì¹˜ ì—…ë°ì´íŠ¸ í•¨ìˆ˜
 function updateStars() {
   for (let i = 0; i < stars.length; i++) {
     let star = stars[i];
     star.x += star.speedX;
     star.y += star.speedY;
 
-    // Äµ¹ö½º °æ°è¿¡ ´êÀ¸¸é ¹æÇâ ¹İÀü
+    // ìº”ë²„ìŠ¤ ê²½ê³„ì— ë‹¿ìœ¼ë©´ ë°©í–¥ ë°˜ì „
     if (star.x < 0 || star.x > width) star.speedX *= -1;
     if (star.y < 0 || star.y > height) star.speedY *= -1;
 
-    // ¾ó±¼ ¿µ¿ª Ãæµ¹ È®ÀÎ ¹× ¹æÇâ ¹İÀü
-    // º°ÀÇ Áß½É°ú ¾ó±¼ ¿µ¿ªÀ» ±âÁØÀ¸·Î Ãæµ¹ ÆÇÁ¤
-    // º°ÀÇ Å©±â¸¦ °í·ÁÇÏ¿© Ãæµ¹ ÆÇÁ¤ ¹üÀ§¸¦ È®Àå
+    // ì–¼êµ´ ì˜ì—­ ì¶©ëŒ í™•ì¸ ë° ë°©í–¥ ë°˜ì „
+    // ë³„ì˜ ì¤‘ì‹¬ê³¼ ì–¼êµ´ ì˜ì—­ì„ ê¸°ì¤€ìœ¼ë¡œ ì¶©ëŒ íŒì •
+    // ë³„ì˜ í¬ê¸°ë¥¼ ê³ ë ¤í•˜ì—¬ ì¶©ëŒ íŒì • ë²”ìœ„ë¥¼ í™•ì¥
     const starRadius = star.size / 2;
     if (star.x + starRadius > faceBounds.x && star.x - starRadius < faceBounds.x + faceBounds.width &&
         star.y + starRadius > faceBounds.y && star.y - starRadius < faceBounds.y + faceBounds.height) {
       
-      // Ãæµ¹ ½Ã ¹æÇâÀ» ¹İÀü½ÃÅ°°í, »ìÂ¦ ¹ÛÀ¸·Î ¹Ğ¾î³»¾î °¤È÷Áö ¾Ê°Ô ÇÕ´Ï´Ù.
+      // ì¶©ëŒ ì‹œ ë°©í–¥ì„ ë°˜ì „ì‹œí‚¤ê³ , ì‚´ì§ ë°–ìœ¼ë¡œ ë°€ì–´ë‚´ì–´ ê°‡íˆì§€ ì•Šê²Œ í•©ë‹ˆë‹¤.
       let collided = false;
-      if (star.x < faceBounds.x || star.x > faceBounds.x + faceBounds.width) { // ÁÂ¿ì Ãæµ¹
+      if (star.x < faceBounds.x || star.x > faceBounds.x + faceBounds.width) { // ì¢Œìš° ì¶©ëŒ
         star.speedX *= -1;
         collided = true;
       }
-      if (star.y < faceBounds.y || star.y > faceBounds.y + faceBounds.height) { // »óÇÏ Ãæµ¹
+      if (star.y < faceBounds.y || star.y > faceBounds.y + faceBounds.height) { // ìƒí•˜ ì¶©ëŒ
         star.speedY *= -1;
         collided = true;
       }
       
-      // °¤È÷´Â °ÍÀ» ¹æÁöÇÏ±â À§ÇØ »ìÂ¦ ¹Ğ¾î³À´Ï´Ù.
+      // ê°‡íˆëŠ” ê²ƒì„ ë°©ì§€í•˜ê¸° ìœ„í•´ ì‚´ì§ ë°€ì–´ëƒ…ë‹ˆë‹¤.
       if (collided) {
         if (star.x < faceBounds.x) star.x = faceBounds.x - starRadius;
         else if (star.x > faceBounds.x + faceBounds.width) star.x = faceBounds.x + faceBounds.width + starRadius;
@@ -412,27 +412,27 @@ function updateStars() {
     }
   }
 
-  // º° ±ôºıÀÓ È¿°ú (¸ğµç º°¿¡ µ¿½Ã¿¡ Àû¿ë)
+  // ë³„ ê¹œë¹¡ì„ íš¨ê³¼ (ëª¨ë“  ë³„ì— ë™ì‹œì— ì ìš©)
   if (millis() - lastStarBlinkTime > starBlinkInterval) {
     for (let i = 0; i < stars.length; i++) {
-      stars[i].dir *= -1; // ±ôºıÀÓ ¹æÇâ ÀüÈ¯
-      stars[i].alpha = (stars[i].dir === 1) ? 255 : 0; // º¸¿´´Ù ¾È º¸¿´´Ù
+      stars[i].dir *= -1; // ê¹œë¹¡ì„ ë°©í–¥ ì „í™˜
+      stars[i].alpha = (stars[i].dir === 1) ? 255 : 0; // ë³´ì˜€ë‹¤ ì•ˆ ë³´ì˜€ë‹¤
     }
-    lastStarBlinkTime = millis(); // ±ôºıÀÓ ½Ã°£ ¾÷µ¥ÀÌÆ®
+    lastStarBlinkTime = millis(); // ê¹œë¹¡ì„ ì‹œê°„ ì—…ë°ì´íŠ¸
   }
 }
 
-// º° ±×¸®±â ÇÔ¼ö
+// ë³„ ê·¸ë¦¬ê¸° í•¨ìˆ˜
 function drawStars() {
   noStroke();
   for (let i = 0; i < stars.length; i++) {
     let star = stars[i];
-    fill(255, 255, 0, star.alpha); // ³ë¶õ»ö º°, Åõ¸íµµ Á¶Àı
+    fill(255, 255, 0, star.alpha); // ë…¸ë€ìƒ‰ ë³„, íˆ¬ëª…ë„ ì¡°ì ˆ
     
-    // »ÏÁ·ÇÑ º° ¸ğ¾ç ±×¸®±â (beginShape/endShape »ç¿ë)
-    push(); // ÇöÀç º¯È¯ »óÅÂ ÀúÀå
-    translate(star.x, star.y); // º°ÀÇ Áß½ÉÀ¸·Î ÀÌµ¿
-    rotate(frameCount * 0.01 + i * PI/4); // º°ÀÌ È¸ÀüÇÏµµ·Ï
+    // ë¾°ì¡±í•œ ë³„ ëª¨ì–‘ ê·¸ë¦¬ê¸° (beginShape/endShape ì‚¬ìš©)
+    push(); // í˜„ì¬ ë³€í™˜ ìƒíƒœ ì €ì¥
+    translate(star.x, star.y); // ë³„ì˜ ì¤‘ì‹¬ìœ¼ë¡œ ì´ë™
+    rotate(frameCount * 0.01 + i * PI/4); // ë³„ì´ íšŒì „í•˜ë„ë¡
     beginShape();
     for (let j = 0; j < 5; j++) {
       let angle = TWO_PI / 5 * j;
@@ -440,11 +440,11 @@ function drawStars() {
       let yOuter = sin(angle) * star.size;
       vertex(xOuter, yOuter);
       angle += TWO_PI / 10;
-      let xInner = cos(angle) * star.size * 0.4; // ¾ÈÂÊ Á¡ÀÇ Å©±â Á¶Àı
+      let xInner = cos(angle) * star.size * 0.4; // ì•ˆìª½ ì ì˜ í¬ê¸° ì¡°ì ˆ
       let yInner = sin(angle) * star.size * 0.4;
       vertex(xInner, yInner);
     }
     endShape(CLOSE);
-    pop(); // ÀÌÀü º¯È¯ »óÅÂ º¹¿ø
+    pop(); // ì´ì „ ë³€í™˜ ìƒíƒœ ë³µì›
   }
 }
